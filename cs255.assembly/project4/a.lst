@@ -1,0 +1,192 @@
+   User = aherre4  Micro-68 Assembler  Tue Apr 15 14:08:31 2014  Page = 1
+
+
+        1  000000       *I worked on this assignment alone, using only this semester's course materials
+        2  000000       * Allen Herrera ::: aherre4@emory.edu ::: 1854183 
+        3  000000       *====================================================================
+        4  000000       * Do not touch the following xdef lists:
+        5  000000       * ====================================================================
+        6  000000       	xref ReadInt, PrintList, malloc
+        7  000000               xdef Start, Stop, End, x, y, z, a, yy
+        8  000000               xdef head, elem
+        9  000000       * ********************************************************************
+       10  000000       * Add more xdef directives below if you need more external labels
+       11  000000       * - You can only add a label as a break point (stop location) in EGTAPI
+       12  000000       * - if the label has been xdef !!!
+       13  000000       * - And I am pretty sure you need to use break point for debugging 
+       14  000000       * - in this project...
+       15  000000       * ********************************************************************
+       16  000000       
+       17  000000       Start:
+       18  000000       * ********************************************************************
+       19  000000       * Put your main program after this line and the Stop label below
+       20  000000       * See project page for a description of the main function
+       21  000000       * ********************************************************************
+       22  000000 23FC 		move.l #0, head
+                  0000
+                  0000
+                  0000
+                  0070
+       23  00000A 2F3C 		move.l #0, -(a7) 	*my i counter for the loop
+                  0000
+                  0000
+       24  000010       Forloop:
+       25  000010 2617 		move.l (a7), D3		*if/when i==5, end loop
+       26  000012 B6BC 		cmp.l #5, D3
+                  0000
+                  0005
+       27  000018 6C00 		bge End
+                  0094
+       28  00001C       
+       29  00001C 4EB9 		jsr ReadInt		*Read in new elem
+                  0000
+                  0000
+       30  000022       
+       31  000022 2F00 		move.l D0, -(a7)	*save this value in stack
+       32  000024 203C 		move.l #8, d0           * 8 byte for a List object
+                  0000
+                  0008
+       33  00002A 4EB9 	        jsr    malloc
+                  0000
+                  0000
+       34  000030           
+       35  000030 23C8 		move.l a0, elem  	*address of elem in elem
+                  0000
+                  0074
+       36  000036 2097 	        move.l (a7), (a0) 	* (a0) contains elem value
+       37  000038 DFFC 		adda.l #4, a7		*reset stack
+                  0000
+   User = aherre4  Micro-68 Assembler  Tue Apr 15 14:08:31 2014  Page = 2
+
+
+                  0004
+       38  00003E       
+       39  00003E 2079 		move.l head, a0		
+                  0000
+                  0070
+       40  000044 2279 	        move.l elem, a1		*4(a1) is elem.next,(a1)is its value
+                  0000
+                  0074
+       41  00004A       x:
+       42  00004A 6100 		bsr InsertList		*recursion yah!
+                  002C
+       43  00004E 23C0 		move.l d0, head  
+                  0000
+                  0070
+       44  000054       y:	
+       45  000054 2079 		move.l head, a0       
+                  0000
+                  0070
+       46  00005A 4EB9 		jsr PrintList		*print my linkedlist
+                  0000
+                  0000
+       47  000060       z:	
+       48  000060 2617 		move.l (a7), D3		* i++
+       49  000062 D6BC 		add.l #1, D3
+                  0000
+                  0001
+       50  000068 2E83 		move.l D3, (a7)
+       51  00006A       yy:
+       52  00006A 60A4 		bra Forloop
+       53  00006C       
+       54  00006C       
+       55  00006C       
+       56  00006C       * ====================================================================
+       57  00006C       * Don't touch the stop label - you need it to stop the program
+       58  00006C       * ====================================================================
+       59  00006C 4E71 	Stop:   nop
+       60  00006E 4E71 	        nop
+       61  000070       
+       62  000070       head:   ds.l 1
+       63  000074       elem:   ds.l 1
+       64  000078       
+       65  000078       
+       66  000078       InsertList:
+       67  000078       * ********************************************************************
+       68  000078       * Put your InsertList function here 
+       69  000078       * ********************************************************************
+       70  000078 2208 		move.l a0, D1		*if head== null
+       71  00007A B2BC 		cmp.l #0, D1
+                  0000
+                  0000
+       72  000080 6700 		beq returnelem
+                  0024
+       73  000084       	
+       74  000084 2030 		move.l (d1), D0		*head.value
+                  1990
+   User = aherre4  Micro-68 Assembler  Tue Apr 15 14:08:31 2014  Page = 3
+
+
+       75  000088 B091 		cmp.l (a1), D0		*or head.value <= newelem
+       76  00008A 6F00 		ble returnelem
+                  001A
+       77  00008E       a:
+       78  00008E       *head.next = (InsertList(head.next, newelem);
+       79  00008E 2F08 		move.l a0, -(a7)	
+       80  000090 2068 		movea.l 4(a0), a0
+                  0004
+       81  000094 61E2 		bsr InsertList
+       82  000096       	
+       83  000096       *(a7) contains head address from before recursive funtion	
+       84  000096 2057 		move.l (a7), a0 	
+       85  000098 DFFC 		adda.l #4, a7		*adjust stack
+                  0000
+                  0004
+       86  00009E       	
+       87  00009E 2140 		move.l d0, 4(a0)      	*head.next = newelem
+                  0004
+       88  0000A2       	
+       89  0000A2 2008 	        move.l a0, d0       	*return head
+       90  0000A4       	
+       91  0000A4       
+       92  0000A4       
+       93  0000A4 4E75 		rts
+       94  0000A6       
+       95  0000A6       
+       96  0000A6       returnelem:
+       97  0000A6 2348 		move.l a0, 4(a1)      	*new.next = head
+                  0004
+       98  0000AA 2009 	        move.l a1, d0       	*return(new [in d0] )
+       99  0000AC 4E75 	        rts
+      100  0000AE       
+      101  0000AE       
+      102  0000AE       * ====================================================================
+      103  0000AE       * Don't add anything below this line...
+      104  0000AE       * ====================================================================
+      105  0000AE       End:
+      106  0000AE               end
+   User = aherre4  Micro-68 Assembler  Tue Apr 15 14:08:31 2014  Page = 4
+
+
+                             SYMBOL TABLE
+                             ************
+
+End        0000AE            Forloop    000010            InsertList   000078            
+PrintList   000000            ReadInt    000000            Start      000000            
+Stop       00006C            a          00008E            elem       000074            
+head       000070            malloc     000000            returnelem   0000A6            
+x          00004A            y          000054            yy         00006A            
+z          000060            
+   User = aherre4  Micro-68 Assembler  Tue Apr 15 14:08:31 2014  Page = 5
+
+
+                         CROSS REFERENCE TABLE
+                         *********************
+
+            105#
+             24#
+             66#
+              0#
+              0#
+             17#
+             59#
+             77#
+             63#
+             62#
+              0#
+             96#
+             41#
+             44#
+             51#
+             47#
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+# A simple script
+
+gedit aprior.c &
+
+gedit trie.c &
+
+gedit makefile &
+
+gedit script & 
+
+gedit T10I4D100K.dat &
+
+gedit outPutFile &
+

@@ -1,0 +1,435 @@
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 1
+
+
+        1  000000       *I worked on this assignment alone, using only this semester's course materials.
+        2  000000       * Allen Herrera, 1854183, aherre4@emory.edu
+        3  000000       	xdef Start, Stop, End
+        4  000000       	xdef Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10
+        5  000000       	xdef A, B, C
+        6  000000       	xdef i, j, k
+        7  000000       	xdef head
+        8  000000       	xdef ans_b, ans_w, ans_l
+        9  000000       
+       10  000000       Start:
+       11  000000       *******************************************************************
+       12  000000       * Put your assembler instructions here
+       13  000000       * Write the answer to each question after the corresponding label.
+       14  000000       * DO NOT REMOVE ANY LABEL IN THIS ASSIGNMENT (all labels are now NECESSARY)
+       15  000000       * *** Failure to do so will result in point deductions ***
+       16  000000       *******************************************************************
+       17  000000       
+       18  000000 207C 	Q1: MOVEA.l #A, A0	*Store a address
+                  0000
+                  0150
+       19  000006 203C 		Move.l #4, D0 
+                  0000
+                  0004
+       20  00000C D1C0 		ADDA.l D0, A0    *add4 to address
+       21  00000E 1010 		MOVE.b (A0), D0  *only need a byte from data from address
+       22  000010 4880 		ext.w D0		*extend for safety
+       23  000012 48C0 		ext.l D0
+       24  000014 23C0 		Move.l D0, ans_l       *put data value  into ans_l
+                  0000
+                  0144
+       25  00001A       	
+       26  00001A       *         ans_l = A[4];
+       27  00001A       
+       28  00001A       
+       29  00001A       
+       30  00001A       
+       31  00001A       
+       32  00001A 227C 	Q2: MOVEA.l #B, A1           *Store b address
+                  0000
+                  015A
+       33  000020 223C 		Move.l #14, D1         
+                  0000
+                  000E
+       34  000026 D3C1 		ADDA.l D1, A1         *add 14 to address to account for shift
+       35  000028 3211 		MOVE.w (A1), D1      *move 2 bytes of data from address in A1 into D1
+       36  00002A       	
+       37  00002A 48C1 		ext.l D1		*extend for safety
+       38  00002C 23C1 		Move.l D1, ans_l	*move data into ans_l
+                  0000
+                  0144
+       39  000032       
+       40  000032       *         ans_l = B[7];
+       41  000032       
+       42  000032       
+       43  000032       
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 2
+
+
+       44  000032       
+       45  000032       
+       46  000032       
+       47  000032 247C 	Q3: MOVEA.l #C, A2 		*Store C address
+                  0000
+                  016E
+       48  000038 2439 		Move.l k, D2
+                  0000
+                  014C
+       49  00003E C5FC 		MULS #4, D2
+                  0004
+       50  000042 D5C2 		ADDA.l D2, A2	*add 4*k to address to accountto access correct object
+       51  000044 2412 		MOVE.l (A2), D2  *move 4 bytes of data from address in A2 into D2
+       52  000046       	
+       53  000046 23C2 		Move.l D2, ans_l *move data into ans_l
+                  0000
+                  0144
+       54  00004C       
+       55  00004C       *         ans_l = C[k];
+       56  00004C       
+       57  00004C       
+       58  00004C       
+       59  00004C       
+       60  00004C       
+       61  00004C 207C 	Q4: movea.l #A, A0	*Store a address
+                  0000
+                  0150
+       62  000052 3039 		Move.w j, D0
+                  0000
+                  014A
+       63  000058 2239 		Move.l k, D1	*extend data reg. to add safely
+                  0000
+                  014C
+       64  00005E 48C0 		ext.l D0	
+       65  000060 D081 		add.l D1, D0	*add j+k
+       66  000062       
+       67  000062       	
+       68  000062 D1C0 		ADDA.l D0, A0 *add J+k to shift the address needed
+       69  000064       
+       70  000064 1010 		Move.b (A0), D0 *move 1 byte of data from address in A0 into D0
+       71  000066 4880 		ext.w D0
+       72  000068       		
+       73  000068 33C0 		Move.w D0, ans_w  *move data into ans_w
+                  0000
+                  0142
+       74  00006E       
+       75  00006E       *         ans_w = A[j + k];      
+       76  00006E       
+       77  00006E       
+       78  00006E       
+       79  00006E       
+       80  00006E 207C 	Q5: movea.l #C, A0 	*store address of C
+                  0000
+                  016E
+       81  000074 1039 		Move.b i, D0	
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 3
+
+
+                  0000
+                  0148
+       82  00007A 2239 		Move.l k, D1	*store more values
+                  0000
+                  014C
+       83  000080 4880 		ext.w D0
+       84  000082 48C0 		ext.l D0	*extend values to add safely
+       85  000084       
+       86  000084 D081 		add.l D1, D0	*add
+       87  000086       
+       88  000086       	
+       89  000086 D1C0 		ADDA.l D0, A0	*add that value to shift the adress
+       90  000088       
+       91  000088 3028 		Move.w 20(A0), D0 
+                  0014
+       92  00008C 48C0 		ext.l D0
+       93  00008E       		
+       94  00008E 33C0 		Move.w D0, ans_w *move data into ans_w
+                  0000
+                  0142
+       95  000094       
+       96  000094       *         ans_w = C[i + k];      
+       97  000094       
+       98  000094       
+       99  000094       
+      100  000094       
+      101  000094 207C 	Q6:movea.l #A, A0 *store address A
+                  0000
+                  0150
+      102  00009A 1039 		Move.b i, D0
+                  0000
+                  0148
+      103  0000A0 3239 		Move.w j, D1	*store more values
+                  0000
+                  014A
+      104  0000A6 4880 		ext.w D0
+      105  0000A8 48C0 		ext.l D0
+      106  0000AA 48C1 		ext.l D1
+      107  0000AC       
+      108  0000AC D081 		add.l D1, D0	*add extended values
+      109  0000AE       	
+      110  0000AE D1C0 		ADDA.l D0, A0 *shift by that much in address
+      111  0000B0       
+      112  0000B0 1010 		Move.b (A0), D0  *move 1 byte of data from address in A0 into D0
+      113  0000B2 4880 		ext.w D0
+      114  0000B4 48C0 		ext.l D0	
+      115  0000B6       		
+      116  0000B6 23C0 		Move.l D0, ans_l *move data into ans_l
+                  0000
+                  0144
+      117  0000BC       *         ans_l = A[j] + B[i];  
+      118  0000BC       
+      119  0000BC       
+      120  0000BC       
+      121  0000BC       
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 4
+
+
+      122  0000BC 207C 	Q7: movea.l #A, A0 	*store address of A
+                  0000
+                  0150
+      123  0000C2 303C 		Move.w #30, D0
+                  001E
+      124  0000C6 3239 		Move.w j, D1
+                  0000
+                  014A
+      125  0000CC 4880 		ext.w D0
+      126  0000CE 48C0 		ext.l D0
+      127  0000D0 48C1 		ext.l D1	
+      128  0000D2       
+      129  0000D2 D1C1 		ADDA.l D1, A0	*add
+      130  0000D4 1410 		Move.b (A0), D2	 *take value of that shifted address
+      131  0000D6 91C1 		suba.l D1, A0	*subtract to get original address
+      132  0000D8       
+      133  0000D8 4882 		ext.w D2	
+      134  0000DA 48C2 		ext.l D2
+      135  0000DC       
+      136  0000DC 9480 		sub.l D0, D2 * subtract to get ? to use in A[?]
+      137  0000DE       	
+      138  0000DE D1C2 		ADDA.l D2, A0 *shift by ?
+      139  0000E0       
+      140  0000E0 1010 		Move.b (A0), D0  *move 1 byte of data from address in A0 into D0
+      141  0000E2 4880 		ext.w D0
+      142  0000E4 48C0 		ext.l D0	
+      143  0000E6       		
+      144  0000E6 23C0 		Move.l D0, ans_l *move data into ans_l
+                  0000
+                  0144
+      145  0000EC       
+      146  0000EC       *         ans_l = A[A[j] - 30];      
+      147  0000EC       
+      148  0000EC       	
+      149  0000EC 207C 	Q8: MOVEA.l #B, A0	*Store address B
+                  0000
+                  015A
+      150  0000F2 203C 		Move.l #28, D0
+                  0000
+                  001C
+      151  0000F8 D1C0 		ADDA.l D0, A0	*add 28 to it (4*7)
+      152  0000FA 3010 		MOVE.w (A0), D0  *move 2 bytes of data from address in A0 into D0
+      153  0000FC 4880 		ext.w D0
+      154  0000FE 48C0 		ext.l D0
+      155  000100 33C0 		Move.w D0, ans_w *move data into ans_w
+                  0000
+                  0142
+      156  000106       
+      157  000106       
+      158  000106       *         ans_w = B[14]
+      159  000106       
+      160  000106       
+      161  000106       
+      162  000106       
+      163  000106       
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 5
+
+
+      164  000106 2039 	Q9: move.l head, D0		*get the address of head
+                  0000
+                  0196
+      165  00010C 23F0 		Move.l (D0), ans_l	*get the value from the address of head into ans_l
+                  0990
+                  0000
+                  0144
+      166  000114       	
+      167  000114       
+      168  000114       *	  ans_l = head.value1;
+      169  000114       
+      170  000114       
+      171  000114       
+      172  000114 2039 	Q10: move.l head, D0	*get the address of head
+                  0000
+                  0196
+      173  00011A D0BC 		add.l #6, D0		*shift 6 (4+2)
+                  0000
+                  0006
+      174  000120 2030 		move.l (D0), D0		*get list 2
+                  0990
+      175  000124 D0BC 		add.l #6, D0		*shift 6
+                  0000
+                  0006
+      176  00012A 2030 		move.l (D0), D0		*get list 3
+                  0990
+      177  00012E D0BC 		add.l #4, D0		
+                  0000
+                  0004
+      178  000134 33F0 		move.w (D0), ans_w	*get 2nd element
+                  0990
+                  0000
+                  0142
+      179  00013C       *	  ans_w = head.next.next.value2; *12
+      180  00013C       
+      181  00013C       
+      182  00013C       
+      183  00013C       *************************************************
+      184  00013C       * Don't write any code below this line
+      185  00013C       *************************************************
+      186  00013C       
+      187  00013C 4E71 	Stop:	nop
+      188  00013E 4E71 		nop
+      189  000140       
+      190  000140       *************************************************
+      191  000140       * Don't touch these variables
+      192  000140       * You do NOT need to define more variables !!!
+      193  000140       *************************************************
+      194  000140       
+      195  000140       ans_b: ds.b 2
+      196  000142       ans_w: ds.w 1
+      197  000144       ans_l: ds.l 1
+      198  000148       
+      199  000148   02 	i:     dc.b  2
+      200  000149       ************************************************************************
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 6
+
+
+      201  000149       * We need to add a 1 byte dummy variable to make the next variable j
+      202  000149       * locate on an EVEN address.
+      203  000149       * Due to some architectural constraints, short and int variables MUST
+      204  000149       * start on an even address (or you will get an "odd address" error)
+      205  000149       ************************************************************************
+      206  000149       dummy: ds.b 1
+      207  00014A       
+      208  00014A 0003 	j:   dc.w  3
+      209  00014C 0000 	k:   dc.l  4
+                  0004
+      210  000150       
+      211  000150   04 	A:  dc.b   4, 11, -22, 33, -44, 55, -66, 77, -88, 99
+                    0B
+                    EA
+                    21
+                    D4
+                    37
+                    BE
+                    4D
+                    A8
+                    63
+      212  00015A       
+      213  00015A 0018 	B:  dc.w   24, 111, -222, 333, -444, 555, -666, 777, -888, 999
+                  006F
+                  FF22
+                  014D
+                  FE44
+                  022B
+                  FD66
+                  0309
+                  FC88
+                  03E7
+      214  00016E       
+      215  00016E 0000 	C:  dc.l   987, 1111, -2222, 3333, -4444, 5555, -6666, 7777, -8888, 9999
+                  03DB
+                  0000
+                  0457
+                  FFFF
+                  F752
+                  0000
+                  0D05
+                  FFFF
+                  EEA4
+                  0000
+                  15B3
+                  FFFF
+                  E5F6
+                  0000
+                  1E61
+                  FFFF
+                  DD48
+                  0000
+                  270F
+      216  000196       
+      217  000196       
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 7
+
+
+      218  000196 0000 	head:   dc.l  list1
+                  01B8
+      219  00019A       
+      220  00019A 0000 	list3:  dc.l 1234
+                  04D2
+      221  00019E 000C 	        dc.w 12
+      222  0001A0 0000 		dc.l list4
+                  01AE
+      223  0001A4 0000 	list2:  dc.l 5678
+                  162E
+      224  0001A8 0022 	        dc.w 34
+      225  0001AA 0000 		dc.l list3
+                  019A
+      226  0001AE 0000 	list4:  dc.l 9012
+                  2334
+      227  0001B2 0038 	        dc.w 56
+      228  0001B4 0000 		dc.l list5
+                  01C2
+      229  0001B8 0000 	list1:  dc.l 3456
+                  0D80
+      230  0001BC 004E 	        dc.w 78
+      231  0001BE 0000 		dc.l list2
+                  01A4
+      232  0001C2 0000 	list5:  dc.l 7890
+                  1ED2
+      233  0001C6 005A 	        dc.w 90
+      234  0001C8 0000 		dc.l 0
+                  0000
+      235  0001CC       
+      236  0001CC       
+      237  0001CC       End:
+      238  0001CC       	end
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 8
+
+
+                             SYMBOL TABLE
+                             ************
+
+A          000150            B          00015A            C          00016E            
+End        0001CC            Q1         000000            Q10        000114            
+Q2         00001A            Q3         000032            Q4         00004C            
+Q5         00006E            Q6         000094            Q7         0000BC            
+Q8         0000EC            Q9         000106            Start      000000            
+Stop       00013C            ans_b      000140            ans_l      000144            
+ans_w      000142            dummy      000149            head       000196            
+i          000148            j          00014A            k          00014C            
+list1      0001B8            list2      0001A4            list3      00019A            
+list4      0001AE            list5      0001C2            
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 14:29:42 2014  Page = 9
+
+
+                         CROSS REFERENCE TABLE
+                         *********************
+
+            211#
+            213#
+            215#
+            237#
+             18#
+            172#
+             32#
+             47#
+             61#
+             80#
+            101#
+            122#
+            149#
+            164#
+             10#
+            187#
+            195#
+            197#
+            196#
+            206#
+            218#
+            199#
+            208#
+            209#
+            229#
+            223#
+            220#
+            226#
+            232#
+

@@ -1,0 +1,320 @@
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 1
+
+
+        1  000000       *I worked on this assignment alone, using only this semester's course materials.
+        2  000000       *Allen Herrera (1854183) aherre4@emory.edu
+        3  000000       * ********************************************************************
+        4  000000       * Do not touch the following 2 xdef lists:
+        5  000000       * ********************************************************************
+        6  000000               xdef Start, Stop, End
+        7  000000               xdef a, b, len_a, len_b, min, max, common
+        8  000000       
+        9  000000       * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       10  000000       * You can add more xdef here to export labels to EGTAPI
+       11  000000       * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       12  000000       	xdef break1,break2, i, j, common
+       13  000000       
+       14  000000       * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       15  000000       *      Put your assembler program here - between the start and stop label
+       16  000000       *      DO NOT define any variables here - see the variable section below
+       17  000000       * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+       18  000000       Start:
+       19  000000 207C 		movea.l #a, A0          *load base address
+                  0000
+                  00F2
+       20  000006 227C 		movea.l #b, A1
+                  0000
+                  0106
+       21  00000C 23F0 		move.l 0(A0, D0.l), min *initialize min
+                  0800
+                  0000
+                  011E
+       22  000014       	
+       23  000014       WhileA:
+       24  000014 2039 		move.l i, D0    
+                  0000
+                  00EA
+       25  00001A       
+       26  00001A C1FC 		muls #4, D0	        *since long words, need to shift properly
+                  0004
+       27  00001E 2E30 		move.l 0(A0, D0.l), D7  *a[i] into D7
+                  0800
+       28  000022 B647 		cmp D7, D3	        *if D7 > D3; D3 = D7
+       29  000024 6D00 		blt Greater_thanA   
+                  004E
+       30  000028       
+       31  000028       greater_checkA:
+       32  000028       
+       33  000028 B447 		cmp D7, D2	        *if D7 < D3; D3 = D7
+       34  00002A 6E00 		bgt Less_thanA    
+                  0052
+       35  00002E       
+       36  00002E       less_checkA:
+       37  00002E 2839 		move.l j, D4		*counter for b array
+                  0000
+                  00EE
+       38  000034       While2commonCheck:   
+       39  000034       	
+       40  000034       
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 2
+
+
+       41  000034 C9FC 		muls #4, D4             *(long words)x4 need to shift properly
+                  0004
+       42  000038       
+       43  000038 2C31 		move.l 0(A1, D4.l), D6  * b[j] stored in D6
+                  4800
+       44  00003C       
+       45  00003C BC47 		cmp D7, D6		*compare a[i] and b[j]
+       46  00003E 6700 		BEQ Counter_plusplus	
+                  0048
+       47  000042       	
+       48  000042       
+       49  000042       comm_continue:
+       50  000042       	
+       51  000042 89FC 		Divs #4, D4
+                  0004
+       52  000046       
+       53  000046       
+       54  000046 D8BC 		add.l #1, D4 		 *j++
+                  0000
+                  0001
+       55  00004C       	
+       56  00004C       
+       57  00004C B8BC 		cmp.l #len_b, D4         *if len_b = j, then exit nested loop
+                  0000
+                  0006
+       58  000052 6C00 		bge WhileAcontinued
+                  0004
+       59  000056       	
+       60  000056 60DC 		bra While2commonCheck	 *loop back if not exited
+       61  000058       
+       62  000058       WhileAcontinued:
+       63  000058       	
+       64  000058 81FC 		Divs #4, D0   
+                  0004
+       65  00005C       
+       66  00005C D0BC 		add.l #1, D0 		 * i++
+                  0000
+                  0001
+       67  000062 23C0 		move.l D0, i
+                  0000
+                  00EA
+       68  000068       
+       69  000068 B0BC 		cmp.l #len_a, D0         *if len_a = i
+                  0000
+                  0005
+       70  00006E 6C00 		bge WhileB	         *a array done, exit loop, check b array
+                  002C
+       71  000072       
+       72  000072       
+       73  000072       break1:
+       74  000072 60A0 		bra WhileA
+       75  000074       
+       76  000074       Greater_thanA:
+       77  000074 2607 		move.l D7, D3  		 *new greatestest from A
+       78  000076 23C3 		move.l D3, max
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 3
+
+
+                  0000
+                  0122
+       79  00007C 60AA 		bra greater_checkA
+       80  00007E       
+       81  00007E       Less_thanA:
+       82  00007E 2407 		move.l D7, D2  		 *new lowestfrom A
+       83  000080 23C2 		move.l D2, min
+                  0000
+                  011E
+       84  000086 60A6 		bra less_checkA
+       85  000088       Counter_plusplus:	
+       86  000088 2239 		move.l common, D1	* new common value between A & B
+                  0000
+                  0126
+       87  00008E D2BC 		add.l #1, D1
+                  0000
+                  0001
+       88  000094 23C1 		move.l D1, common 
+                  0000
+                  0126
+       89  00009A       	
+       90  00009A 60A6 		bra comm_continue
+       91  00009C       
+       92  00009C       
+       93  00009C       
+       94  00009C       WhileB:
+       95  00009C       	
+       96  00009C 2239 		move.l j, D1
+                  0000
+                  00EE
+       97  0000A2       	
+       98  0000A2 C3FC 		muls #4, D1  	       *since long words, need to shift properly
+                  0004
+       99  0000A6       
+      100  0000A6 2E31 		move.l 0(A1, D1.l), D7
+                  1800
+      101  0000AA       
+      102  0000AA B647 		cmp D7, D3	       *if D7 > D3; D3 = D7
+      103  0000AC 6D00 		blt Greater_thanB
+                  0024
+      104  0000B0       
+      105  0000B0       greater_checkB:
+      106  0000B0       
+      107  0000B0 B447 		cmp D7, D2	       *if D7 < D3; D3 = D7
+      108  0000B2 6E00 		bgt Less_thanB
+                  0028
+      109  0000B6       less_checkB:
+      110  0000B6       
+      111  0000B6 83FC 		Divs #4, D1
+                  0004
+      112  0000BA       
+      113  0000BA D2BC 		add.l #1, D1           * j++
+                  0000
+                  0001
+      114  0000C0 23C1 		move.l D1, j
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 4
+
+
+                  0000
+                  00EE
+      115  0000C6       
+      116  0000C6 B2BC 		cmp.l #len_b, D1       *if len_b = j, then exit Bloop
+                  0000
+                  0006
+      117  0000CC 6C00 		bge EndWhile	       *done
+                  0018
+      118  0000D0       break2:
+      119  0000D0 60CA 		bra WhileB
+      120  0000D2       
+      121  0000D2       Greater_thanB:
+      122  0000D2 2607 		move.l D7, D3 	       *new greatest from B
+      123  0000D4 23C3 		move.l D3, max
+                  0000
+                  0122
+      124  0000DA 60D4 		bra greater_checkB
+      125  0000DC       
+      126  0000DC       Less_thanB:
+      127  0000DC 2407 		move.l D7, D2          *new lowest from B
+      128  0000DE 23C2 		move.l D2, min
+                  0000
+                  011E
+      129  0000E4 60D0 		bra less_checkB
+      130  0000E6       
+      131  0000E6       EndWhile:
+      132  0000E6       				
+      133  0000E6       
+      134  0000E6       
+      135  0000E6       * ********************************************************************
+      136  0000E6       * Don't touch the stop label - you need it to stop the program
+      137  0000E6       * ********************************************************************
+      138  0000E6 4E71 	Stop:   nop
+      139  0000E8       
+      140  0000E8       
+      141  0000E8 4E71 	End:    nop
+      142  0000EA       
+      143  0000EA       * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      144  0000EA       *    Variable Section -   Put your variables here
+      145  0000EA       *
+      146  0000EA       *    DO NOT define a, b, min, max, common, etc
+      147  0000EA       *    They are already defined below
+      148  0000EA       * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      149  0000EA       
+      150  0000EA 0000 	i: dc.l 0
+                  0000
+      151  0000EE 0000 	j: dc.l 0
+                  0000
+      152  0000F2       
+      153  0000F2       * ********************************************************************
+      154  0000F2       * XXXX Don't touch anything below this line !!!
+      155  0000F2       * ********************************************************************
+      156  0000F2 0000 	a:      dc.l  1, 2, 3, 4, 5
+                  0001
+                  0000
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 5
+
+
+                  0002
+                  0000
+                  0003
+                  0000
+                  0004
+                  0000
+                  0005
+      157  000106 0000 	b:      dc.l  6, 7, 8, 9, 10, 11 
+                  0006
+                  0000
+                  0007
+                  0000
+                  0008
+                  0000
+                  0009
+                  0000
+                  000A
+                  0000
+                  000B
+      158  000005       len_a: 	equ 5
+      159  000006       len_b:	equ 6
+      160  00011E       min:	ds.l 1
+      161  000122       max:	ds.l 1
+      162  000126       common:	ds.l 1
+      163  00012A       
+      164  00012A       * ********************************************************************
+      165  00012A       * Add more variables below if you need them
+      166  00012A       * ********************************************************************
+      167  00012A       
+      168  00012A       
+      169  00012A       
+      170  00012A       
+      171  00012A               end
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 6
+
+
+                             SYMBOL TABLE
+                             ************
+
+Counter_plusplus   000088            End        0000E8            EndWhile   0000E6            
+Greater_thanA   000074            Greater_thanB   0000D2            Less_thanA   00007E            
+Less_thanB   0000DC            Start      000000            Stop       0000E6            
+While2commonCheck   000034            WhileA     000014            WhileAcontinued   000058            
+WhileB     00009C            a          0000F2            b          000106            
+break1     000072            break2     0000D0            comm_continue   000042            
+common     000126            greater_checkA   000028            greater_checkB   0000B0            
+i          0000EA            j          0000EE            len_a    = 000005            
+len_b    = 000006            less_checkA   00002E            less_checkB   0000B6            
+max        000122            min        00011E            
+   User = aherre4  Micro-68 Assembler  Thu Feb 27 19:28:06 2014  Page = 7
+
+
+                         CROSS REFERENCE TABLE
+                         *********************
+
+             85#
+            141#
+            131#
+             76#
+            121#
+             81#
+            126#
+             18#
+            138#
+             38#
+             23#
+             62#
+             94#
+            156#
+            157#
+             73#
+            118#
+             49#
+            162#
+             31#
+            105#
+            150#
+            151#
+            158#
+            159#
+             36#
+            109#
+            161#
+            160#
+

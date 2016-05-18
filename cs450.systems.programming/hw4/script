@@ -1,0 +1,28 @@
+#!/bin/bash
+# My first script
+
+./manage &
+./compute 2 &
+./compute 2 &
+./compute 2 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+./compute 20000 &
+sleep 5s
+./report
+
+

@@ -1,0 +1,29 @@
+#Filename: Debug.project1
+
+Section ProgramDirectory;
+EndSection;
+
+Section Breakpoint;
+Start;
+Stop;
+break1;
+break2;
+EndSection;
+
+Section Variable;
+max;	Signed Integer;
+min;	Signed Integer;
+common;	Signed Integer;
+i;	Signed Integer;
+j;	Signed Integer;
+EndSection;
+
+Section Array;
+#Name;   Type;   Size;   NumberOfAttribute;
+EndSection;
+
+Section LinkedList;
+#StartingPoint;   Chained;   NumberOfAttribute;   NumberOfLinkage;
+EndSection;
+
+EndOfFile;

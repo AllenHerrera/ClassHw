@@ -1,0 +1,35 @@
+#Filename: Debug.hw4
+
+Section Breakpoint;
+Start;
+Stop;
+Q2;
+Q3;
+Q4;
+Q5;
+Q6;
+Q7;
+Q8;
+Q9;
+Q10;
+EndSection;
+
+Section Variable;
+i;	Signed Byte;
+j;	Signed Short;
+k;	Signed Integer;
+ans_b;	Signed Byte;
+ans_w;	Signed Short;
+ans_l;	Signed Integer;
+EndSection;
+
+Section Array;
+A;	Signed Byte;	10;	0;
+B;	Signed Short;	10;	0;
+C;	Signed Integer;	10;	0;
+EndSection;
+
+Section LinkedList;
+EndSection;
+
+EndOfFile;

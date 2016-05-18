@@ -1,0 +1,4 @@
+Ive included a makefile for my C program aprior
+With all my files in the same folder, just type "make"
+then " ./aprior <fileIn> <support> <outfile> "
+example " ./aprior T10I4D100K 500 outPut "

@@ -1,0 +1,34 @@
+Section Breakpoint;
+
+Start;
+Stop;
+End;
+Q2;
+Q3;
+Q4;
+Q5;
+Q6;
+Q7;
+Q8;
+Q9;
+
+EndSection;
+
+Section Variable;
+v1;     Signed Byte;
+v2;     Signed Byte;
+v3;     Signed Byte;
+v4;     Signed Byte;
+v5;     Signed Short;
+v6;     Signed Short;
+v7;     Signed Short;
+v8;     Signed Integer;
+v9;     Signed Integer;
+v10;    Signed Integer;
+&20000; Signed Byte;
+&20001; Signed Byte;
+&20002; Signed Short;
+&20004; Signed Integer;
+EndSection;
+
+EndOfFile;

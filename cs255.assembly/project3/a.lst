@@ -1,0 +1,259 @@
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 1
+
+
+        1  000000       *I worked on this assignment alone, using only this semester's course materials.
+        2  000000       * Allen Herrera:::: Aherre4@emory.edu:::: 1854183
+        3  000000       * ====================================================================
+        4  000000       * Do not touch the following 3 xdef lists:
+        5  000000       * ====================================================================
+        6  000000       	xref ReadInt, WriteInt
+        7  000000               xdef Start, Stop, End,b2,br5,br6
+        8  000000              
+        9  000000       * ********************************************************************
+       10  000000       * Add more xdef directives below if you need more external labels
+       11  000000       * - You can only add a label as a break point (stop location) in EGTAPI
+       12  000000       * - if the label has been xdef!
+       13  000000       * - You will probably need to use break points for debugging 
+       14  000000       * - in this project.
+       15  000000       * ********************************************************************
+       16  000000       
+       17  000000       Start:
+       18  000000       * ********************************************************************
+       19  000000       * Put your main program after this line and the Stop label below
+       20  000000       * Your main program must read in i, j, and k and
+       21  000000       * print the value of F(i,j,k)
+       22  000000       * ********************************************************************
+       23  000000 4EB9 		jsr ReadInt
+                  0000
+                  0000
+       24  000006 2F00 		move.l D0, -(a7) *put i into stack
+       25  000008       	
+       26  000008       
+       27  000008 4EB9 		jsr ReadInt
+                  0000
+                  0000
+       28  00000E 2F00 		move.l D0, -(a7) *put j into stack
+       29  000010       	
+       30  000010       
+       31  000010 4EB9 		jsr ReadInt
+                  0000
+                  0000
+       32  000016 2F00 		move.l D0, -(a7) *put k into stack
+       33  000018       	
+       34  000018       	
+       35  000018 6100 		bsr F
+                  0014
+       36  00001C       br5:
+       37  00001C 2016 		move.l (a6),D0 *write sum from stack into D0
+       38  00001E 4EB9 		jsr WriteInt
+                  0000
+                  0000
+       39  000024       br6:	
+       40  000024 DFFC 		adda.l #12, a7 *clear stack
+                  0000
+                  000C
+       41  00002A       
+       42  00002A       
+       43  00002A       * ====================================================================
+       44  00002A       * Don't touch the stop label - you need it to stop the program
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 2
+
+
+       45  00002A       * ====================================================================
+       46  00002A 4E71 	Stop:   nop
+       47  00002C 4E71 	        nop
+       48  00002E       
+       49  00002E       
+       50  00002E       
+       51  00002E       F:
+       52  00002E       * ********************************************************************
+       53  00002E       * Put your recursive function F here 
+       54  00002E       * ********************************************************************
+       55  00002E 2C4F 		move.l a7, a6		*adjust my frame pointer
+       56  000030       	
+       57  000030       
+       58  000030 202E 		move.l 12(a6),D0   	*move i into d0
+                  000C
+       59  000034       b2:	
+       60  000034 B0BC 		cmp.l #0, D0		*if i<=0 
+                  0000
+                  0000
+       61  00003A 6F00 		ble return0
+                  0080
+       62  00003E       	
+       63  00003E       
+       64  00003E 222E 		move.l 8(a6),D1		*move j into D1
+                  0008
+       65  000042 B2BC 		cmp.l #0,D1		* || j<=0
+                  0000
+                  0000
+       66  000048 6F00 		ble return0		* both cmp above branch to returning Zero
+                  0072
+       67  00004C       		
+       68  00004C       
+       69  00004C 242E 		move.l 4(a6),D2		*move k into D2 	
+                  0004
+       70  000050 D280 		add.l D0,D1		* i+j 
+       71  000052 B282 		cmp.l D2,D1		* i+j < k
+       72  000054 6D00 		blt returnik		*branch to return i+k
+                  007A
+       73  000058       	
+       74  000058       	
+       75  000058 2F3C 		move.l #0, -(a7) 	*initialize s in stack as zero
+                  0000
+                  0000
+       76  00005E 2F3C 		move.l #1, -(a7) 	*initialize t in stack as 1 (my counter)
+                  0000
+                  0001
+       77  000064       	
+       78  000064       	
+       79  000064       forloop:
+       80  000064       	
+       81  000064 242E 		move.l 4(a6), D2 	*move k to D2
+                  0004
+       82  000068 B4AE 		cmp.l -8(a6), D2 	* k < t
+                  FFF8
+       83  00006C 6F00 		ble returns
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 3
+
+
+                  0072
+       84  000070       
+       85  000070       *atm -8(a6)= t, 4(a6)= s, 4(a6)= k, 8(a6)= j , 12(a6)= i
+       86  000070       	
+       87  000070 202E 		move.l 12(a6), D0 	*move i into D0		
+                  000C
+       88  000074 90AE 		sub.l -8(a6), D0	*i-t
+                  FFF8
+       89  000078 2F00 		move.l D0, -(a7)	* new i in stack
+       90  00007A       
+       91  00007A 202E 		move.l 8(a6), D0 	*move j into D0
+                  0008
+       92  00007E 90AE 		sub.l -8(a6), D0	*j -t
+                  FFF8
+       93  000082 2F00 		move.l D0, -(a7)	*new j in stack
+       94  000084       
+       95  000084 202E 		move.l 4(a6), D0 	* move k into D0
+                  0004
+       96  000088 90BC 		sub.l #1,D0		* k-1
+                  0000
+                  0001
+       97  00008E 2F00 		move.l D0, -(a7)	*new k  in stack
+       98  000090       
+       99  000090       	
+      100  000090       	
+      101  000090       
+      102  000090       
+      103  000090 619C 		bsr F			*recursion yah!!!!
+      104  000092       	
+      105  000092 262E 		move.l -4(a6), D3	*the returned value to be added to s
+                  FFFC
+      106  000096       
+      107  000096 282E 		move.l 24(a6),D4  	*move old s from stack to D4
+                  0018
+      108  00009A D883 		add.l D3, D4		* S= S + F(result)
+      109  00009C 2D44 		move.l D4, 24(a6)	*save updated s in stack
+                  0018
+      110  0000A0       
+      111  0000A0 262E 		move.l 20(a6), D3  	* t++
+                  0014
+      112  0000A4 D6BC 		add.l #1, D3
+                  0000
+                  0001
+      113  0000AA 2D43 		move.l D3, 20(a6)	*update t in stack
+                  0014
+      114  0000AE       	
+      115  0000AE DDFC 		adda.l #28, a6		*clean pointer to move backwards
+                  0000
+                  001C
+      116  0000B4 DFFC 		adda.l #12, a7		*clean stack to move backwards
+                  0000
+                  000C
+      117  0000BA       	
+      118  0000BA       
+      119  0000BA 60A8 		bra forloop		*loops yah!!!
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 4
+
+
+      120  0000BC       
+      121  0000BC       
+      122  0000BC       	
+      123  0000BC       
+      124  0000BC       return0:
+      125  0000BC       	
+      126  0000BC 263C 		move.l #0, D3		*return 0 via stack
+                  0000
+                  0000
+      127  0000C2 2F03 		move.l D3, -(a7)
+      128  0000C4 2C4F 		move.l a7, a6		*adjust pointer
+      129  0000C6 2F03 		move.l D3, -(a7)	*needed to keep stack format/order
+      130  0000C8 DFFC 		adda.l #8, a7		*adjust stack for rts
+                  0000
+                  0008
+      131  0000CE 4E75 		rts 
+      132  0000D0       returnik:
+      133  0000D0       	
+      134  0000D0 D480 		add.l  D0, D2		*i + k
+      135  0000D2 2F02 		move.l D2, -(a7)	* move to stack
+      136  0000D4       
+      137  0000D4 2C4F 		move.l a7, a6		*adjust pointer
+      138  0000D6 2F02 		move.l D2, -(a7)	*needed to keep stack format/order
+      139  0000D8 DFFC 		adda.l #8, a7		*adjust Stack for rts
+                  0000
+                  0008
+      140  0000DE 4E75 		rts   		
+      141  0000E0       
+      142  0000E0       returns:
+      143  0000E0       
+      144  0000E0 282E 		move.l -4(a6), D4 	*return s ia stack
+                  FFFC
+      145  0000E4 DFFC 		adda.l #4, a7		*adjust stack
+                  0000
+                  0004
+      146  0000EA 2C4F 		move.l a7, a6		*adjust pointer
+      147  0000EC 2F04 		move.l D4,-(a7) 	*needed to keep stack format/order
+      148  0000EE       
+      149  0000EE DFFC 		adda.l #8, a7		*adjust stack
+                  0000
+                  0008
+      150  0000F4       
+      151  0000F4       
+      152  0000F4 4E75 		rts 
+      153  0000F6       
+      154  0000F6       
+      155  0000F6       * ====================================================================
+      156  0000F6       * Don't add anything below this line...
+      157  0000F6       * ====================================================================
+      158  0000F6       End:
+      159  0000F6               end
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 5
+
+
+                             SYMBOL TABLE
+                             ************
+
+End        0000F6            F          00002E            ReadInt    000000            
+Start      000000            Stop       00002A            WriteInt   000000            
+b2         000034            br5        00001C            br6        000024            
+forloop    000064            return0    0000BC            returnik   0000D0            
+returns    0000E0            
+   User = aherre4  Micro-68 Assembler  Thu Apr  3 14:45:58 2014  Page = 6
+
+
+                         CROSS REFERENCE TABLE
+                         *********************
+
+            158#
+             51#
+              0#
+             17#
+             46#
+              0#
+             59#
+             36#
+             39#
+             79#
+            124#
+            132#
+            142#
+

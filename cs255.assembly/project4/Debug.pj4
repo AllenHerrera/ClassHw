@@ -1,0 +1,36 @@
+#Filename: Debug.pj4
+
+Section ProgramDirectory;
+EndSection;
+
+Section Breakpoint;
+Start;
+Stop;
+x;
+y;
+z;
+a;
+yy;
+EndSection;
+
+Section Variable;
+head;	Signed Integer;
+elem;	Signed Integer;
+EndSection;
+
+Section Array;
+#Name;   Type;   Size;   NumberOfAttribute;
+EndSection;
+
+Section LinkedList;
+head;	true;
+-- value;	Signed Integer;	1;	0;
+-- next;	Linkage;	1;	4;
+>> 4;
+elem;	false;
+-- value;	Signed Integer;	1;	0;
+-- next;	Linkage;	1;	4;
+>> 4;
+EndSection;
+
+EndOfFile;

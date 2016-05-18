@@ -1,0 +1,334 @@
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 1
+
+
+        1  000000       *I worked on this assignment alone, using only this semester's course materials.
+        2  000000       *Allen Herrera ::: Aherre4@emory.edu :::: 1854183
+        3  000000       * BubbleSort skeleton file
+        4  000000       * 
+        5  000000       
+        6  000000               xdef Start, Stop, End, break
+        7  000000       	xref WriteInt, WriteLn
+        8  000000               xdef A, B, k
+        9  000000               xdef BubbleSort
+       10  000000       	
+       11  000000       *****************************************************************************
+       12  000000       * Main program: call BubbleSort twice to sort 2 different arrays
+       13  000000       *	 	and print the sorted arrays out
+       14  000000       *
+       15  000000       *       ******   DO NOT change the main program.  ***********
+       16  000000       *
+       17  000000       * Write your BubbleSort routine starting at the "BubbleSort:" label below
+       18  000000       *****************************************************************************
+       19  000000       Start:
+       20  000000 203C 		move.l #A, D0
+                  0000
+                  0122
+       21  000006 223C 		move.l #5, D1
+                  0000
+                  0005
+       22  00000C 6100 		bsr    BubbleSort		* Sort array A
+                  00A4
+       23  000010       
+       24  000010       **** Print array A
+       25  000010 23FC 		move.l #0, i
+                  0000
+                  0000
+                  0000
+                  015E
+       26  00001A       Print1: 
+       27  00001A 203C 		move.l #5, D0
+                  0000
+                  0005
+       28  000020 B0B9 		cmp.l  i, D0
+                  0000
+                  015E
+       29  000026 6700 		beq    Start2
+                  0028
+       30  00002A       
+       31  00002A 207C 		move.l #A, A0
+                  0000
+                  0122
+       32  000030 2039 		move.l i, D0
+                  0000
+                  015E
+       33  000036 C1FC 		muls  #4, D0
+                  0004
+       34  00003A 2030 		move.l  0(A0, D0.w), D0
+                  0000
+       35  00003E 4EB9 		jsr    WriteInt
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 2
+
+
+                  0000
+                  0000
+       36  000044       
+       37  000044 06B9 		addi.l  #1, i
+                  0000
+                  0001
+                  0000
+                  015E
+       38  00004E 60CA 		bra    Print1
+       39  000050       
+       40  000050       Start2:
+       41  000050 207C 	        move.l #str, A0
+                  0000
+                  0162
+       42  000056 203C 	        move.l #5, D0
+                  0000
+                  0005
+       43  00005C 4EB9 		jsr    WriteLn
+                  0000
+                  0000
+       44  000062       
+       45  000062 203C 	        move.l #B, D0
+                  0000
+                  0136
+       46  000068 223C 	        move.l #10, D1
+                  0000
+                  000A
+       47  00006E 6100 	        bsr    BubbleSort		* Sort array B
+                  0042
+       48  000072       
+       49  000072       **** Print array B
+       50  000072 23FC 	        move.l #0, i
+                  0000
+                  0000
+                  0000
+                  015E
+       51  00007C       Print2:
+       52  00007C 203C 	        move.l #10, D0
+                  0000
+                  000A
+       53  000082 B0B9 	        cmp.l  i, D0
+                  0000
+                  015E
+       54  000088 6700 	        beq    Stop
+                  0094
+       55  00008C       
+       56  00008C 207C 	        move.l #B, A0
+                  0000
+                  0136
+       57  000092 2039 	        move.l i, D0
+                  0000
+                  015E
+       58  000098 C1FC 	        muls  #4, D0
+                  0004
+       59  00009C 2030 	        move.l  0(A0, D0.w), D0
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 3
+
+
+                  0000
+       60  0000A0 4EB9 	        jsr    WriteInt
+                  0000
+                  0000
+       61  0000A6       
+       62  0000A6 06B9 	        addi.l  #1, i
+                  0000
+                  0001
+                  0000
+                  015E
+       63  0000B0 60CA 	        bra    Print2
+       64  0000B2       
+       65  0000B2       
+       66  0000B2       *************************************************************************
+       67  0000B2       * Write your code for the BubleSort() function here
+       68  0000B2       *
+       69  0000B2       *  The BubbleSort subroutine MUST receive the inputs as follows:
+       70  0000B2       *
+       71  0000B2       *          D0 = addres of int array to be sorted
+       72  0000B2       *          D1 = N
+       73  0000B2       *
+       74  0000B2       *  No value needs to be returned....
+       75  0000B2       *************************************************************************
+       76  0000B2       
+       77  0000B2       
+       78  0000B2       BubbleSort:
+       79  0000B2       
+       80  0000B2 243C 		move.l #0, D2   *initialize counter
+                  0000
+                  0000
+       81  0000B8 92B9 		sub.l k,D1	*leave the tail element untouched as its sorted
+                  0000
+                  011A
+       82  0000BE       
+       83  0000BE       Loop:
+       84  0000BE       break:	
+       85  0000BE 2040 		movea.l D0, A0
+       86  0000C0 D1FC 		adda.l #4, A0   *access next element
+                  0000
+                  0004
+       87  0000C6 2630 		move.l (D0), D3	* use addresses to get values
+                  0990
+       88  0000CA 2810 		move.l (A0), D4
+       89  0000CC       	
+       90  0000CC       
+       91  0000CC       	
+       92  0000CC B242 		cmp D2,D1	*compare counter
+       93  0000CE 6F00 		ble end 	
+                  001C
+       94  0000D2       
+       95  0000D2 D4BC 		add.l #1, D2	* Counter ++
+                  0000
+                  0001
+       96  0000D8 B843 		cmp D3,D4	*compare elements
+       97  0000DA 6E00 		bgt continue	*switch elements if D4>D3
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 4
+
+
+                  0008
+       98  0000DE 2083 		move.l D3, (A0)
+       99  0000E0 2184 		move.l D4, (D0) *referencing the old array - switching
+                  0990
+      100  0000E4       
+      101  0000E4       
+      102  0000E4       continue:
+      103  0000E4       	
+      104  0000E4 D0BC 		add.l #4, D0	*move down an element
+                  0000
+                  0004
+      105  0000EA       	
+      106  0000EA 60D2 		bra Loop
+      107  0000EC       
+      108  0000EC       
+      109  0000EC       ****************************************************************************
+      110  0000EC       * Write your assembler instructions below (do not pass the rts instruction)
+      111  0000EC       ****************************************************************************
+      112  0000EC       
+      113  0000EC       
+      114  0000EC       
+      115  0000EC       end:	
+      116  0000EC       	
+      117  0000EC D2B9 		add.l k, D1  *get back to total elements
+                  0000
+                  011A
+      118  0000F2       	
+      119  0000F2 C5FC 		muls #4, D2
+                  0004
+      120  0000F6 9082 		sub.l D2, D0 *reset D0
+      121  0000F8       	
+      122  0000F8 2A39 		move.l k, D5 *k counter
+                  0000
+                  011A
+      123  0000FE DABC 		add.l #1,D5  *K++
+                  0000
+                  0001
+      124  000104 23C5 		move.l D5, k
+                  0000
+                  011A
+      125  00010A       
+      126  00010A       	
+      127  00010A B245 		cmp D5 ,D1   * Test to know when done
+      128  00010C 6EA4 		bgt BubbleSort
+      129  00010E       	
+      130  00010E 23FC 		move.l #1, k *reset k for the next array
+                  0000
+                  0001
+                  0000
+                  011A
+      131  000118       
+      132  000118 4E75 		rts	*** I have added a rts to make sure your function returns....
+      133  00011A       
+      134  00011A       * ********************************************************************
+      135  00011A       * Add more variables here if you need them
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 5
+
+
+      136  00011A       * ********************************************************************
+      137  00011A       
+      138  00011A 0000 	k: dc.l 1
+                  0001
+      139  00011E       
+      140  00011E       
+      141  00011E       
+      142  00011E       * ********************************************************************
+      143  00011E       * Don't touch the stop label - you need it to stop the program
+      144  00011E       * ********************************************************************
+      145  00011E 4E71 	Stop:   nop
+      146  000120 4E71 	        nop
+      147  000122       
+      148  000122       * ********************************************************************
+      149  000122       * Don't touch these variables (used by main program)
+      150  000122       * ********************************************************************
+      151  000122 0000 	A:      dc.l 8, -1, -8, 4, 11
+                  0008
+                  FFFF
+                  FFFF
+                  FFFF
+                  FFF8
+                  0000
+                  0004
+                  0000
+                  000B
+      152  000136 0000 	B:      dc.l 78, -1, 8, 45, 11, -89, 56, 9, 12, -19
+                  004E
+                  FFFF
+                  FFFF
+                  0000
+                  0008
+                  0000
+                  002D
+                  0000
+                  000B
+                  FFFF
+                  FFA7
+                  0000
+                  0038
+                  0000
+                  0009
+                  0000
+                  000C
+                  FFFF
+                  FFED
+      153  00015E       i:      ds.l 1
+      154  000162   2D 	str:    dc.b '--------'
+                    2D
+                    2D
+                    2D
+                    2D
+                    2D
+                    2D
+                    2D
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 6
+
+
+      155  00016A       
+      156  00016A       End:
+      157  00016A       
+      158  00016A               end
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 7
+
+
+                             SYMBOL TABLE
+                             ************
+
+A          000122            B          000136            BubbleSort   0000B2            
+End        00016A            Loop       0000BE            Print1     00001A            
+Print2     00007C            Start      000000            Start2     000050            
+Stop       00011E            WriteInt   000000            WriteLn    000000            
+break      0000BE            continue   0000E4            end        0000EC            
+i          00015E            k          00011A            str        000162            
+   User = aherre4  Micro-68 Assembler  Thu Mar 27 13:56:17 2014  Page = 8
+
+
+                         CROSS REFERENCE TABLE
+                         *********************
+
+            151#
+            152#
+             78#
+            156#
+             83#
+             26#
+             51#
+             19#
+             40#
+            145#
+              0#
+              0#
+             84#
+            102#
+            115#
+            153#
+            138#
+            154#
+

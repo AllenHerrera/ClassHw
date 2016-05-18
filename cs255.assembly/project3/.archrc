@@ -1,0 +1,92 @@
+# filename: .archrc
+
+# A line begins with one or more '#' is a comment line
+# Empty lines are allowed in this file.
+# If the line is not a comment line, it must ends with ';'.
+# Items in a line must be seperated by ';'.
+# This file contains multiple sections;
+# Each section begins with a line of section name and ends with a line of "EndSection;"
+# The last line must be "EndOfFile;"
+
+Section Architecture;
+#Name;	ProgramPath;				CommandLinePrompt;
+# Use this line to run emacsim from grader account
+M68000; /home/cs255000/bin/emacsim; (emacsim);
+#
+# Use this line to run a local test
+# M68000; ./emacsim; (emacsim);
+EndSection;
+
+Section HelpURL;
+http://www.mathcs.emory.edu/~cs255000/Projects/Egtapi/doc/Egtapi.html;
+EndSection;
+
+Section Symbol;
+#FirstBreakPoint;	#LastBreakPoint;	#EndOfMemory;
+Start;			Stop;			End;
+EndSection;
+
+Section ProgramIOFile;
+#inputFile	outputFile
+termin0; 	termout0;
+EndSection;
+
+Section ErrorMessage;
+#The beginning part of an error message that output to the stdout in emulator; 		hint;
+#ex1111, error, and trap:nonexistant memroy  will cause emacsim exit
+5;
+trap: odd address; 	Your program is probably trying to access a short or an integer at an odd memory location.;
+trap: nonexistant memory;	Your program is probably trying to access nonexistant memory.;
+trap:;		;
+ex1111;		;
+error:;		;
+EndSection;
+
+General Registers 1;
+Name: Data Register;
+Number of Registers: 8;
+#DisplayName    DisplayColor    GetCommand
+D0;             0000FF;         p/d $d0;
+D1;             0000FF;         p/d $d1;
+D2;             0000FF;         p/d $d2;
+D3;             0000FF;         p/d $d3;
+D4;             0000FF;         p/d $d4;
+D5;             0000FF;         p/d $d5;
+D6;             0000FF;         p/d $d6;
+D7;             0000FF;         p/d $d7;
+EndSection;
+
+General Registers 2;
+Name: Address Register;
+Number of Registers: 8;
+#DisplayName    DisplayColor    GetCommand
+A0;             0000FF;       	p/d $a0;
+A1;             0000FF;      	p/d $a1;
+A2;             0000FF;     	p/d $a2;
+A3;             0000FF;    	p/d $a3;
+A4;             0000FF;     	p/d $a4;
+A5;             0000FF;     	p/d $a5;
+A6;             FF00FF;     	p/d $fp;
+A7;             FF0000;     	p/d $sp;
+EndSection;
+
+Special Registers 1;
+Name: PC & PSR;
+Number of Registers: 2;
+#DisplayName   	DisplayColor	GetCommand	DisplayFormat 	N;Z;V;C;(for psr, '8,9,10,11' for SPARC, '28,29,30,31' for M68000)
+PC;		FF0000;		p/d $pc;	1;
+PSR;		0000FF;		p/d $ps;	2;		28; 29; 30; 31;
+EndSection;
+
+Section GetSpecial;
+NextInstruction;	x/i $pc;  	#get next instruction
+StackPointer;		p/u $sp;	#get stack pointer
+FramePointer;		p/u $fp;	#get frame pointer
+EndSection;
+
+FontSizeSection;
+#Small          Medium          Large         Default
+12;             15;             18;		12;
+EndSection;
+
+EndOfFile;
